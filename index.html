@@ -17,6 +17,7 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
             position: relative;
+            cursor: pointer; /* Cambia el cursor para indicar que se puede hacer clic */
         }
 
         .hearts-container {
@@ -58,11 +59,27 @@
             margin-top: 20px;
             font-weight: bold;
         }
+
+        #introMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: pulse 1.5s infinite; /* Animación para llamar la atención */
+        }
+
+        @keyframes pulse {
+            from { transform: translate(-50%, -50%) scale(1); }
+            to { transform: translate(-50%, -50%) scale(1.05); }
+        }
     </style>
 </head>
 <body>
 
-    <audio autoplay loop>
+    <audio id="audioPlayer" loop>
         <source src="cancion.mp3" type="audio/mpeg">
         Tu navegador no soporta el elemento de audio.
     </audio>
@@ -73,6 +90,8 @@
         <div class="main-text">A y F</div>
         <div class="text-below">JUNTOS POR SIEMPRE MI VIDA</div>
     </div>
+
+    <div id="introMessage">Haz clic en la pantalla para iniciar</div>
     
     <script>
         const heartsContainer = document.querySelector('.hearts-container');
@@ -86,7 +105,15 @@
             heart.style.animationDelay = (Math.random() * 3) + 's';
             heartsContainer.appendChild(heart);
         }
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const introMessage = document.getElementById('introMessage');
+
+        // Código para reproducir la música al hacer clic en cualquier parte de la página
+        document.body.addEventListener('click', () => {
+            audioPlayer.play();
+            introMessage.style.display = 'none'; // Oculta el mensaje
+        }, { once: true }); // El evento solo se ejecuta una vez
     </script>
 </body>
-
 </html>
